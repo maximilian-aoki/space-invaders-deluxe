@@ -24,7 +24,7 @@ screen.onkeypress(fun=player.shoot, key="space")
 # artificial timer
 start_time = datetime.now()
 
-# gameplay
+# GAMEPLAY LOGIC
 invader_manager.create_invaders()
 
 game_on = True
@@ -32,19 +32,22 @@ while game_on:
     screen.update()
     time.sleep(0.1)
 
-    # invader move logic
+    # reset player color if hit
+    player.color("white")
+
+    # INVADER MOVE
     time_check = (datetime.now() - start_time).total_seconds()
     if time_check >= invader_manager.move_time:
         invader_manager.invaders_turn()
         start_time = datetime.now()
 
-    # PLAYER LASER LOGIC
+    # PLAYER LASER MOVE
     for laser in player.all_lasers:
         laser.forward(player.laser_speed)
 
         # if laser hits invader
         for invader in invader_manager.all_invaders:
-            if laser.distance(invader) < 23:
+            if laser.distance(invader) <= 23:
                 invader_manager.all_invaders.remove(invader)
                 invader.hideturtle()
                 laser.hideturtle()
@@ -55,7 +58,7 @@ while game_on:
             laser.hideturtle()
             player.all_lasers.remove(laser)
 
-    # INVADER LASER LOGIC
+    # INVADER LASER MOVE
     for invader_laser in invader_manager.all_invader_lasers:
         invader_laser.forward(invader_laser.laser_speed)
 
@@ -67,11 +70,26 @@ while game_on:
                 laser.hideturtle()
                 invader_laser.hideturtle()
 
+        # if laser hits player
+        if invader_laser.distance(player) <= 25:
+            player.color("red")
+            player.lives -= 1
+            invader_manager.all_invader_lasers.remove(invader_laser)
+            invader_laser.hideturtle()
+
         # if laser flies off-screen
         if invader_laser.ycor() <= -580:
             invader_laser.hideturtle()
             invader_manager.all_invader_lasers.remove(invader_laser)
 
+    # final checks
+    if player.lives == 0:
+        game_on = False
+    elif invader_manager.all_invaders == []:
+        game_on = False
+
+# show final screen
+screen.update()
 
 # end program
 screen.exitonclick()
