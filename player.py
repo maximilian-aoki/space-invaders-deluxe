@@ -8,6 +8,7 @@ class Player(Turtle):
         super().__init__()
         self.penup()
         self.shape("square")
+        self.shapesize(stretch_wid=2, stretch_len=3)
         self.color("white")
         self.setposition(PLAYER_STARTING_POS)
         self.setheading(180)

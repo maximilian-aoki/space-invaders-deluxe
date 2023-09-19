@@ -25,7 +25,7 @@ while game_on:
 
     # player laser logic
     for laser in player.all_lasers:
-        laser.forward(20)
+        laser.forward(30)
         if laser.ycor() >= 500:
             laser.hideturtle()
             player.all_lasers.remove(laser)
