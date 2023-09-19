@@ -38,22 +38,36 @@ while game_on:
         invader_manager.invaders_turn()
         start_time = datetime.now()
 
-    # player laser logic
+    # PLAYER LASER LOGIC
     for laser in player.all_lasers:
         laser.forward(player.laser_speed)
+
+        # if laser hits invader
         for invader in invader_manager.all_invaders:
             if laser.distance(invader) < 23:
                 invader_manager.all_invaders.remove(invader)
                 invader.hideturtle()
                 laser.hideturtle()
                 player.all_lasers.remove(laser)
+
+        # if laser flies off-screen
         if laser.ycor() >= 500:
             laser.hideturtle()
             player.all_lasers.remove(laser)
 
-    # invader laser logic
+    # INVADER LASER LOGIC
     for invader_laser in invader_manager.all_invader_lasers:
         invader_laser.forward(invader_laser.laser_speed)
+
+        # if laser collides with player laser
+        for laser in player.all_lasers:
+            if laser.xcor() == invader_laser.xcor() and laser.ycor() >= invader_laser.ycor():
+                player.all_lasers.remove(laser)
+                invader_manager.all_invader_lasers.remove(invader_laser)
+                laser.hideturtle()
+                invader_laser.hideturtle()
+
+        # if laser flies off-screen
         if invader_laser.ycor() <= -580:
             invader_laser.hideturtle()
             invader_manager.all_invader_lasers.remove(invader_laser)
