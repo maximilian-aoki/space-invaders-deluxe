@@ -24,16 +24,21 @@ screen.onkeypress(fun=player.shoot, key="space")
 # artificial timer
 start_time = datetime.now()
 
-# GAMEPLAY LOGIC
+# initialize all invaders
 invader_manager.create_invaders()
+eliminated_invaders = []
 
+# GAMEPLAY
 game_on = True
 while game_on:
     screen.update()
     time.sleep(0.1)
 
-    # reset player color if hit
+    # reset colors after hits
     player.color("white")
+    for elim in eliminated_invaders:
+        eliminated_invaders.remove(elim)
+        elim.hideturtle()
 
     # INVADER MOVE
     time_check = (datetime.now() - start_time).total_seconds()
@@ -49,9 +54,13 @@ while game_on:
         for invader in invader_manager.all_invaders:
             if laser.distance(invader) <= 23:
                 invader_manager.all_invaders.remove(invader)
-                invader.hideturtle()
                 laser.hideturtle()
                 player.all_lasers.remove(laser)
+
+                # just for a nice UI experience
+                eliminated_invaders.append(invader)
+                for elim in eliminated_invaders:
+                    elim.color("LightGreen")
 
         # if laser flies off-screen
         if laser.ycor() >= 500:
@@ -85,7 +94,7 @@ while game_on:
     # final checks
     if player.lives == 0:
         game_on = False
-    elif invader_manager.all_invaders == []:
+    elif not invader_manager.all_invaders:
         game_on = False
 
 # show final screen
