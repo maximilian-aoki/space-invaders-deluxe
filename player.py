@@ -14,14 +14,15 @@ class Player(Turtle):
         self.setheading(180)
 
         self.mov_speed = 20
+        self.lives = 3
         self.all_lasers = []
 
     def move_left(self):
-        if self.xcor() >= -420.0:
+        if self.xcor() >= -520.0:
             self.forward(self.mov_speed)
 
     def move_right(self):
-        if self.xcor() <= 420.0:
+        if self.xcor() <= 520.0:
             self.backward(self.mov_speed)
 
     def shoot(self):
