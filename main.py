@@ -41,6 +41,12 @@ while game_on:
     # player laser logic
     for laser in player.all_lasers:
         laser.forward(player.laser_speed)
+        for invader in invader_manager.all_invaders:
+            if laser.distance(invader) < 23:
+                invader_manager.all_invaders.remove(invader)
+                invader.hideturtle()
+                laser.hideturtle()
+                player.all_lasers.remove(laser)
         if laser.ycor() >= 500:
             laser.hideturtle()
             player.all_lasers.remove(laser)
