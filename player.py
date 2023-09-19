@@ -16,6 +16,7 @@ class Player(Turtle):
         self.mov_speed = 20
         self.lives = 3
         self.all_lasers = []
+        self.laser_speed = 30
 
     def move_left(self):
         if self.xcor() >= -520.0:
@@ -26,7 +27,7 @@ class Player(Turtle):
             self.backward(self.mov_speed)
 
     def shoot(self):
-        if len(self.all_lasers) == 0 or self.all_lasers[-1].ycor() >= 0.0:
+        if len(self.all_lasers) == 0 or self.all_lasers[-1].ycor() >= -100.0:
             self.all_lasers.append(PlayerLaser(self))
 
 

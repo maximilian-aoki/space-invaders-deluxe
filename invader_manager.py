@@ -8,7 +8,10 @@ class InvaderManager(Turtle):
         self.penup()
         self.hideturtle()
         self.all_invaders = []
-        self.start_ycor = 50.0
+        self.start_ycor = 150.0
+        self.orientation = 0
+        self.move_speed = 20.0
+        self.move_time = 1.0
 
     def create_invaders(self):
         for row_level in ["easy", "easy", "medium", "medium", "hard"]:
@@ -21,6 +24,27 @@ class InvaderManager(Turtle):
                         Invader(difficulty=row_level, position=(j * 60, self.start_ycor))
                     )
             self.start_ycor += 60
+
+    def move_invaders(self):
+        at_edge = False
+        for invader in self.all_invaders:
+            if (invader.xcor() == 540 and self.orientation == 0) \
+                    or (invader.xcor() == -540 and self.orientation == 180):
+                if invader.xcor() == 540:
+                    self.orientation = 180
+                elif invader.xcor() == -540:
+                    self.orientation = 0
+                at_edge = True
+                break
+        if at_edge:
+            for invader in self.all_invaders:
+                invader.setposition((invader.xcor(), invader.ycor() - 60))
+                invader.setheading(self.orientation)
+            self.move_time -= 0.1
+        elif not at_edge:
+            for invader in self.all_invaders:
+                invader.forward(self.move_speed)
+
 
 
 class Invader(Turtle):
