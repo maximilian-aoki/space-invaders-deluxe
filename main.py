@@ -26,7 +26,8 @@ start_time = datetime.now()
 
 # initialize all invaders
 invader_manager.create_invaders()
-eliminated_invaders = []
+eliminated_list = []
+
 
 # GAMEPLAY
 game_on = True
@@ -36,9 +37,9 @@ while game_on:
 
     # reset colors after hits
     player.color("white")
-    for elim in eliminated_invaders:
-        eliminated_invaders.remove(elim)
-        elim.hideturtle()
+    for item in eliminated_list:
+        eliminated_list.remove(item)
+        item.hideturtle()
 
     # INVADER MOVE
     time_check = (datetime.now() - start_time).total_seconds()
@@ -54,13 +55,12 @@ while game_on:
         for invader in invader_manager.all_invaders:
             if laser.distance(invader) <= 23:
                 invader_manager.all_invaders.remove(invader)
-                laser.hideturtle()
                 player.all_lasers.remove(laser)
+                laser.hideturtle()
 
                 # just for a nice UI experience
-                eliminated_invaders.append(invader)
-                for elim in eliminated_invaders:
-                    elim.color("LightGreen")
+                eliminated_list.append(invader)
+                invader.color("LightGreen")
 
         # if laser flies off-screen
         if laser.ycor() >= 500:
@@ -91,11 +91,19 @@ while game_on:
             invader_laser.hideturtle()
             invader_manager.all_invader_lasers.remove(invader_laser)
 
-    # final checks
+    # final checks for loss conditions
+    for invader in invader_manager.all_invaders:
+        if invader.ycor() <= -350:
+            player.color("red")
+            game_on = False
+            break
     if player.lives == 0:
         game_on = False
-    elif not invader_manager.all_invaders:
+
+    # final checks for win condition
+    if not invader_manager.all_invaders:
         game_on = False
+
 
 # show final screen
 screen.update()

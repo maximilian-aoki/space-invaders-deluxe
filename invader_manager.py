@@ -11,7 +11,7 @@ class InvaderManager(Turtle):
         self.all_invader_lasers = []
 
         # movement characteristics
-        self.start_ycor = 150.0
+        self.start_ycor = 150
         self.orientation = 0
         self.move_speed = 20.0
         self.move_time = 1.0
