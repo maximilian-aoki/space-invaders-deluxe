@@ -35,7 +35,7 @@ while game_on:
     # invader move logic
     time_check = (datetime.now() - start_time).total_seconds()
     if time_check >= invader_manager.move_time:
-        invader_manager.move_invaders()
+        invader_manager.invaders_turn()
         start_time = datetime.now()
 
     # player laser logic
@@ -50,6 +50,13 @@ while game_on:
         if laser.ycor() >= 500:
             laser.hideturtle()
             player.all_lasers.remove(laser)
+
+    # invader laser logic
+    for invader_laser in invader_manager.all_invader_lasers:
+        invader_laser.forward(invader_laser.laser_speed)
+        if invader_laser.ycor() <= -580:
+            invader_laser.hideturtle()
+            invader_manager.all_invader_lasers.remove(invader_laser)
 
 
 # end program

@@ -8,10 +8,16 @@ class InvaderManager(Turtle):
         self.penup()
         self.hideturtle()
         self.all_invaders = []
+        self.all_invader_lasers = []
+
+        # movement characteristics
         self.start_ycor = 150.0
         self.orientation = 0
         self.move_speed = 20.0
         self.move_time = 1.0
+
+        # attack characteristics
+        self.laser_factor = 50
 
     def create_invaders(self):
         for row_level in ["easy", "easy", "medium", "medium", "hard"]:
@@ -25,7 +31,8 @@ class InvaderManager(Turtle):
                     )
             self.start_ycor += 60
 
-    def move_invaders(self):
+    def invaders_turn(self):
+        # movement phase
         at_edge = False
         for invader in self.all_invaders:
             if (invader.xcor() == 540 and self.orientation == 0) \
@@ -45,6 +52,12 @@ class InvaderManager(Turtle):
             for invader in self.all_invaders:
                 invader.forward(self.move_speed)
 
+        # attack phase
+        for invader in self.all_invaders:
+            die_roll = random.randint(1, self.laser_factor)
+            if die_roll == 1:
+                self.all_invader_lasers.append(InvaderLaser(invader=invader))
+                break
 
 
 class Invader(Turtle):
@@ -69,3 +82,20 @@ class Invader(Turtle):
 class InvaderLaser(Turtle):
     def __init__(self, invader):
         super().__init__()
+        self.penup()
+        self.shape("square")
+        self.shapesize(stretch_wid=0.2, stretch_len=1)
+        self.setheading(270)
+
+        self.setposition(invader.position())
+        self.difficulty = invader.difficulty
+
+        if self.difficulty == "easy":
+            self.color("PaleTurquoise1")
+            self.laser_speed = 20
+        elif self.difficulty == "medium":
+            self.color("khaki1")
+            self.laser_speed = 30
+        elif self.difficulty == "hard":
+            self.color("coral1")
+            self.laser_speed = 40
