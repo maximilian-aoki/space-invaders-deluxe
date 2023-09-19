@@ -1,6 +1,7 @@
 from turtle import Screen
 from player import Player
 from invader_manager import InvaderManager
+from barricade_manager import BarricadeManager
 from datetime import datetime
 import time
 
@@ -14,6 +15,7 @@ screen.tracer(0)
 # initialize gameplay objects
 player = Player()
 invader_manager = InvaderManager()
+barricade_manager = BarricadeManager()
 
 # listen for player key presses
 screen.listen()
@@ -88,8 +90,8 @@ while game_on:
 
         # if laser flies off-screen
         if invader_laser.ycor() <= -580:
-            invader_laser.hideturtle()
             invader_manager.all_invader_lasers.remove(invader_laser)
+            invader_laser.hideturtle()
 
     # final checks for loss conditions
     for invader in invader_manager.all_invaders:

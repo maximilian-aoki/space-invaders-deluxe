@@ -2,11 +2,8 @@ from turtle import Turtle
 import random
 
 
-class InvaderManager(Turtle):
+class InvaderManager:
     def __init__(self):
-        super().__init__()
-        self.penup()
-        self.hideturtle()
         self.all_invaders = []
         self.all_invader_lasers = []
 
