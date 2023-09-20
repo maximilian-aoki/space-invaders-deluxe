@@ -16,7 +16,7 @@ class Player(Turtle):
         self.mov_speed = 20
         self.all_lasers = []
         self.laser_speed = 30
-        self.lives = 3
+        self.lives = ["♥", "♥", "♥"]
 
     def move_left(self):
         if self.xcor() >= -520.0:

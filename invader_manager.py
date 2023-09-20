@@ -17,7 +17,8 @@ class InvaderManager:
         self.laser_factor = 50
 
         # mystery characteristics
-        self.mystery_ship = None
+        self.mystery_ship = []
+        self.mystery_factor = 50
 
     def create_invaders(self):
         for row_level in ["easy", "easy", "medium", "medium", "hard"]:
@@ -60,15 +61,17 @@ class InvaderManager:
                 break
 
         # mystery invader move
-        if self.mystery_ship is None:
-            die_roll_mystery = random.randint(1, 50)
+        if not self.mystery_ship:
+            die_roll_mystery = random.randint(1, self.mystery_factor)
             if die_roll_mystery == 7:
-                self.mystery_ship = Invader(difficulty="mystery", position=(620, 420))
-                self.mystery_ship.setheading(180)
+                self.mystery_factor *= 2
+                self.mystery_ship.append(Invader(difficulty="mystery", position=(620, 420)))
+                self.mystery_ship[0].setheading(180)
         else:
-            self.mystery_ship.forward(20)
-            if self.mystery_ship.xcor() <= -620:
-                self.mystery_ship.hideturtle()
+            self.mystery_ship[0].forward(20)
+            if self.mystery_ship[0].xcor() <= -620:
+                self.mystery_ship[0].hideturtle()
+                self.mystery_ship.remove(self.mystery_ship[0])
 
 
 class Invader(Turtle):

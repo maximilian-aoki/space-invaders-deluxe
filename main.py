@@ -2,6 +2,7 @@ from turtle import Screen
 from player import Player
 from invader_manager import InvaderManager
 from barricade_manager import BarricadeManager
+from gameboard import Score, HealthBar
 from datetime import datetime
 import time
 
@@ -20,6 +21,8 @@ start_time = datetime.now()
 player = Player()
 invader_manager = InvaderManager()
 barricade_manager = BarricadeManager()
+score = Score()
+health_bar = HealthBar(player=player)
 
 # listen for player key presses
 screen.listen()
@@ -74,18 +77,21 @@ while game_on:
                 # just for a nice UI experience
                 eliminated_list.append(invader)
                 invader.color("LightGreen")
+                score.hit_score(invader.difficulty)
 
                 # make it slightly more likely that each invader will shoot
                 invader_manager.laser_factor -= 1
                 break
         if invader_manager.mystery_ship:
-            if laser.distance(invader_manager.mystery_ship) <= 23:
+            if laser.distance(invader_manager.mystery_ship[0]) <= 23:
                 player.all_lasers.remove(laser)
                 laser.hideturtle()
 
-                # just for a nice UI experience
-                eliminated_list.append(invader_manager.mystery_ship)
-                invader_manager.mystery_ship.color("LightGreen")
+                eliminated_list.append(invader_manager.mystery_ship[0])
+                invader_manager.mystery_ship[0].color("LightGreen")
+                invader_manager.mystery_ship.remove(invader_manager.mystery_ship[0])
+
+                score.mystery_score()
 
     # if player laser hits barricade
     for laser in player.all_lasers:
@@ -136,9 +142,10 @@ while game_on:
     for invader_laser in invader_manager.all_invader_lasers:
         if invader_laser.distance(player) <= 25:
             player.color("red")
-            player.lives -= 1
+            health_bar.player_hit(scoreboard=score)
             invader_manager.all_invader_lasers.remove(invader_laser)
             invader_laser.hideturtle()
+
             break
 
     # if invader laser flies off-screen
@@ -157,7 +164,7 @@ while game_on:
             break
 
     # check if player still has lives
-    if player.lives == 0:
+    if not player.lives:
         game_on = False
 
     # check if player destroyed all invaders
