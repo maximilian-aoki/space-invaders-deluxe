@@ -2,7 +2,8 @@ from turtle import Screen
 from player import Player
 from invader_manager import InvaderManager
 from barricade_manager import BarricadeManager
-from gameboard import Score, HealthBar, Title, Info
+from gameboard import Score, HealthBar, Title, Subtitle, Info
+import upgrades
 from datetime import datetime
 import time
 
@@ -176,9 +177,15 @@ while game_on:
         game_on = False
         round_win = True
 
+        win_title = Title(message_str="ROUND WIN")
+        win_subtitle = Subtitle(message_str="See console output for player upgrades :)")
+
+        upgrades.upgrade_menu(score_board=score.score)
+
 
 # show final screen on loss
 game_over = Title(message_str="GAME OVER")
+game_over_subtitle = Subtitle(message_str="Better luck next time!")
 screen.update()
 
 # end program

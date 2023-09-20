@@ -56,8 +56,18 @@ class Title(Turtle):
         self.penup()
         self.hideturtle()
         self.color("white")
-        self.setposition(0, 400)
+        self.setposition(0, 420)
         self.write(arg=message_str, align="center", font=("Courier", 60, "bold"))
+
+
+class Subtitle(Turtle):
+    def __init__(self, message_str):
+        super().__init__()
+        self.penup()
+        self.hideturtle()
+        self.color("white")
+        self.setposition(0, 400)
+        self.write(arg=message_str, align="center", font=("Courier", 24, "normal"))
 
 
 class Info(Turtle):
