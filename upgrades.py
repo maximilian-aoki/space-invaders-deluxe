@@ -3,23 +3,29 @@ def upgrade_menu(score_board):
     print("In the meantime, take a look at what we have in stock (QTY 1 each):\n")
     print(f"         Your Credits: {score_board}\n")
     print("           Ship Armor: 200    [Type 'a' to add to cart]")
-    print("          Base Repair: 500    [Type 'r' to add to cart]")
-    print("       SPECIAL DEVICE: 1000   [Type 'd' to add to cart]")
+    print("          Machine Gun: 500    [Type 'b' to add to cart]")
+    print("       SPECIAL DEVICE: 1000   [Type 'c' to add to cart]")
 
     next_round_items = order_output(score_board=score_board)
+
+    print(f"\nYou have {next_round_items['score']} credits remaining.")
+
+    input("\nHit [RETURN] to start next round:")
+
+    print("\nNEXT ROUND STARTED")
 
     return next_round_items
 
 
 def order_output(score_board):
     order = input("\nWhat would you like to purchase? "
-                  "(separate multiple orders by comma i.e. 'a,d', or skip with 'n'): ").lower().strip()
+                  "(separate multiple orders by comma i.e. 'a,b', or skip with 'n'): ").lower().strip()
 
     checkout_output = {
         "score": score_board,
         "armor": [],
-        "base_repair": "",
-        "device": "",
+        "fire_rate": None,
+        "device": False,
     }
 
     cost = 0
@@ -32,13 +38,13 @@ def order_output(score_board):
             checkout_output["armor"] = ["⛊", "⛊"]
             order_confirm.append("a")
             cost += 200
-        if "r" in order:
-            checkout_output["base_repair"] = "Yes"
-            order_confirm.append("r")
+        if "b" in order:
+            checkout_output["fire_rate"] = -300
+            order_confirm.append("b")
             cost += 500
-        if "d" in order:
-            checkout_output["device"] = "Armed..."
-            order_confirm.append("d")
+        if "c" in order:
+            checkout_output["device"] = True
+            order_confirm.append("c")
             cost += 1000
 
         if score_board >= cost:

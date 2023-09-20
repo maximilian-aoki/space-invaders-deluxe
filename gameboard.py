@@ -2,15 +2,16 @@ from turtle import Turtle
 
 
 class Score(Turtle):
-    def __init__(self):
+    def __init__(self, round, score):
         super().__init__()
         self.penup()
         self.hideturtle()
         self.color("white")
-        self.setposition(-500, -465)
+        self.setposition(-575, -465)
 
-        self.score = 0
-        self.write(arg=f"SCORE: {self.score}", align="left", font=("Courier", 24, "normal"))
+        self.round = round
+        self.score = score
+        self.write(arg=f"ROUND: {self.round}  CREDITS: {self.score}", align="left", font=("Courier", 24, "normal"))
 
     def hit_score(self, invader_difficulty):
         self.clear()
@@ -20,12 +21,9 @@ class Score(Turtle):
             self.score += 25
         elif invader_difficulty == "hard":
             self.score += 50
-        self.write(arg=f"SCORE: {self.score}", align="left", font=("Courier", 24, "normal"))
-
-    def mystery_score(self):
-        self.clear()
-        self.score += 300
-        self.write(arg=f"SCORE: {self.score}", align="left", font=("Courier", 24, "normal"))
+        elif invader_difficulty == "mystery":
+            self.score += 300
+        self.write(arg=f"ROUND: {self.round}  CREDITS: {self.score}", align="left", font=("Courier", 24, "normal"))
 
 
 class HealthBar(Turtle):
@@ -34,7 +32,7 @@ class HealthBar(Turtle):
         self.penup()
         self.hideturtle()
         self.color("white")
-        self.setposition(-300, -465)
+        self.setposition(-200, -465)
 
         self.lives = player.lives
         self.write(arg=f"HEALTH: {' '.join(self.lives)}", align="left", font=("Courier", 24, "normal"))
@@ -47,7 +45,26 @@ class HealthBar(Turtle):
         scoreboard.score -= 200
         if scoreboard.score < 0:
             scoreboard.score = 0
-        scoreboard.write(arg=f"SCORE: {scoreboard.score}", align="left", font=("Courier", 24, "normal"))
+        scoreboard.write(
+            arg=f"ROUND: {scoreboard.round}  CREDITS: {scoreboard.score}",
+            align="left",
+            font=("Courier", 24, "normal")
+        )
+
+
+class DeviceBar(Turtle):
+    def __init__(self, player):
+        super().__init__()
+        self.penup()
+        self.hideturtle()
+        self.color("white")
+        self.setposition(200, -465)
+
+        self.status = player.device
+        self.write(
+            arg=f"HEALTH: {' '.join(self.lives)}",
+            align="left",
+            font=("Courier", 24, "normal"))
 
 
 class Title(Turtle):
