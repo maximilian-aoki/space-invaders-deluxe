@@ -25,7 +25,7 @@ class InvaderManager:
             self.all_invaders.append(
                 Invader(difficulty=row_level, position=(0.0, self.start_ycor))
             )
-            for i in range(1, 5):
+            for i in range(1, 4):
                 for j in [-i, i]:
                     self.all_invaders.append(
                         Invader(difficulty=row_level, position=(j * 60, self.start_ycor))
@@ -54,6 +54,8 @@ class InvaderManager:
                 invader.forward(self.move_speed)
 
         # attack phase
+        if self.laser_factor < 2:
+            self.laser_factor = 2
         for invader in self.all_invaders:
             die_roll = random.randint(1, self.laser_factor)
             if die_roll == 1:

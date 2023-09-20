@@ -19,7 +19,7 @@ class Player(Turtle):
         self.fire_rate = -100
         self.lives = ["♥", "♥", "♥"]
 
-        self.device_status = True
+        self.device_status = False
         self.device = []
         self.device_speed = 10
 

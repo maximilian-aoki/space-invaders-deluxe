@@ -2,7 +2,7 @@ from turtle import Screen
 from player import Player, DeviceExplosion
 from invader_manager import InvaderManager
 from barricade_manager import BarricadeManager
-from gameboard import Score, HealthBar, Title, Subtitle, Info
+from gameboard import Score, HealthBar, DeviceBar, Title, Subtitle, Info
 import upgrades
 from datetime import datetime
 import time
@@ -28,6 +28,7 @@ barricade_manager = BarricadeManager()
 
 score = Score(round=round_mod, score=1000)
 health_bar = HealthBar(player=player)
+device_bar = DeviceBar(player=player)
 info = Info(message_str="hit [esc] to end game")
 
 
@@ -75,7 +76,11 @@ while game_on:
 
     # player device move (if applicable)
     for device in player.device:
+        device_bar.update_device_status(player=player)
         device.forward(player.device_speed)
+        if device.ycor() >= 500:
+            player.device.remove(device)
+            device.hideturtle()
 
     # invaders move and shoot turn (based on asynchronous invader timer)
     time_check = (datetime.now() - start_time).total_seconds()
@@ -250,6 +255,7 @@ while game_on:
         invader_manager.laser_factor -= 2 * (round_mod - 1)
 
         health_bar = HealthBar(player=player)
+        device_bar = DeviceBar(player=player)
         info = Info(message_str="hit [esc] to end game")
 
         # listen for player key presses

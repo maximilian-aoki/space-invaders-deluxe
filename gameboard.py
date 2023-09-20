@@ -57,14 +57,33 @@ class DeviceBar(Turtle):
         super().__init__()
         self.penup()
         self.hideturtle()
-        self.color("white")
         self.setposition(200, -465)
 
-        self.status = player.device
-        self.write(
-            arg=f"HEALTH: {' '.join(self.lives)}",
-            align="left",
-            font=("Courier", 24, "normal"))
+        self.status = player.device_status
+        if self.status:
+            self.color("LightGreen")
+            self.write(arg=f"Device: ARMED [hit return]",
+                       align="left",
+                       font=("Courier", 24, "normal"))
+        else:
+            self.color("white")
+            self.write(arg=f"Device: None",
+                       align="left",
+                       font=("Courier", 24, "normal"))
+
+    def update_device_status(self, player):
+        self.clear()
+        self.status = player.device_status
+        if self.status:
+            self.color("LightGreen")
+            self.write(arg="Device: ARMED [hit return]",
+                       align="left",
+                       font=("Courier", 24, "normal"))
+        else:
+            self.color("white")
+            self.write(arg="Device: None",
+                       align="left",
+                       font=("Courier", 24, "normal"))
 
 
 class Title(Turtle):
