@@ -2,7 +2,7 @@ from turtle import Screen
 from player import Player
 from invader_manager import InvaderManager
 from barricade_manager import BarricadeManager
-from gameboard import Score, HealthBar
+from gameboard import Score, HealthBar, Title, Info
 from datetime import datetime
 import time
 
@@ -21,14 +21,17 @@ start_time = datetime.now()
 player = Player()
 invader_manager = InvaderManager()
 barricade_manager = BarricadeManager()
+
 score = Score()
 health_bar = HealthBar(player=player)
+info = Info(message_str="click screen to exit")
 
 # listen for player key presses
 screen.listen()
 screen.onkeypress(fun=player.move_left, key="Left")
 screen.onkeypress(fun=player.move_right, key="Right")
 screen.onkeypress(fun=player.shoot, key="space")
+
 
 # initialize all invaders
 invader_manager.create_invaders()
@@ -37,6 +40,7 @@ eliminated_list = []
 # --------------------------- GAMEPLAY --------------------------- #
 
 game_on = True
+round_win = False
 while game_on:
     # update the player's screen
     screen.update()
@@ -163,16 +167,18 @@ while game_on:
             game_on = False
             break
 
-    # check if player still has lives
+    # check if player lost all lives
     if not player.lives:
         game_on = False
 
-    # check if player destroyed all invaders
+    # check if player destroyed all invaders (ONLY WIN CONDITION)
     if not invader_manager.all_invaders:
         game_on = False
+        round_win = True
 
 
-# show final screen
+# show final screen on loss
+game_over = Title(message_str="GAME OVER")
 screen.update()
 
 # end program
