@@ -74,6 +74,9 @@ while game_on:
                 # just for a nice UI experience
                 eliminated_list.append(invader)
                 invader.color("LightGreen")
+
+                # make it slightly more likely that each invader will shoot
+                invader_manager.laser_factor -= 1
                 break
 
     # if player laser hits barricade
