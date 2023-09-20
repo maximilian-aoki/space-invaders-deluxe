@@ -26,10 +26,10 @@ player = Player()
 invader_manager = InvaderManager()
 barricade_manager = BarricadeManager()
 
-score = Score(round=round_mod, score=1000)
+score = Score(round=round_mod, score=0)
 health_bar = HealthBar(player=player)
 device_bar = DeviceBar(player=player)
-info = Info(message_str="hit [esc] to end game")
+info = Info(message_str="[space] to shoot\n[left] and [right] to move\n[esc] to end game")
 
 
 # listen for player key presses
@@ -256,7 +256,7 @@ while game_on:
 
         health_bar = HealthBar(player=player)
         device_bar = DeviceBar(player=player)
-        info = Info(message_str="hit [esc] to end game")
+        info = Info(message_str="[space] to shoot\n[left] and [right] to move\n[esc] to end game")
 
         # listen for player key presses
         screen.listen()

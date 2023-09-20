@@ -112,5 +112,5 @@ class Info(Turtle):
         self.penup()
         self.hideturtle()
         self.color("white")
-        self.setposition(-475, 475)
+        self.setposition(-450, 435)
         self.write(arg=message_str, align="center", font=("Courier", 18, "normal"))

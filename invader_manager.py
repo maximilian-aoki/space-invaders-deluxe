@@ -25,7 +25,7 @@ class InvaderManager:
             self.all_invaders.append(
                 Invader(difficulty=row_level, position=(0.0, self.start_ycor))
             )
-            for i in range(1, 4):
+            for i in range(1, 5):
                 for j in [-i, i]:
                     self.all_invaders.append(
                         Invader(difficulty=row_level, position=(j * 60, self.start_ycor))
