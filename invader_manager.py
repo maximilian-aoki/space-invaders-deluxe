@@ -8,13 +8,16 @@ class InvaderManager:
         self.all_invader_lasers = []
 
         # movement characteristics
-        self.start_ycor = 150
+        self.start_ycor = 120
         self.orientation = 0
         self.move_speed = 20.0
         self.move_time = 1.0
 
         # attack characteristics
         self.laser_factor = 50
+
+        # mystery characteristics
+        self.mystery_ship = None
 
     def create_invaders(self):
         for row_level in ["easy", "easy", "medium", "medium", "hard"]:
@@ -56,6 +59,17 @@ class InvaderManager:
                 self.all_invader_lasers.append(InvaderLaser(invader=invader))
                 break
 
+        # mystery invader move
+        if self.mystery_ship is None:
+            die_roll_mystery = random.randint(1, 50)
+            if die_roll_mystery == 7:
+                self.mystery_ship = Invader(difficulty="mystery", position=(620, 420))
+                self.mystery_ship.setheading(180)
+        else:
+            self.mystery_ship.forward(20)
+            if self.mystery_ship.xcor() <= -620:
+                self.mystery_ship.hideturtle()
+
 
 class Invader(Turtle):
     def __init__(self, difficulty, position):
@@ -74,6 +88,8 @@ class Invader(Turtle):
             self.color("khaki1")
         elif self.difficulty == "hard":
             self.color("coral1")
+        elif self.difficulty == "mystery":
+            self.color("MediumOrchid1")
 
 
 class InvaderLaser(Turtle):

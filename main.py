@@ -78,6 +78,14 @@ while game_on:
                 # make it slightly more likely that each invader will shoot
                 invader_manager.laser_factor -= 1
                 break
+        if invader_manager.mystery_ship:
+            if laser.distance(invader_manager.mystery_ship) <= 23:
+                player.all_lasers.remove(laser)
+                laser.hideturtle()
+
+                # just for a nice UI experience
+                eliminated_list.append(invader_manager.mystery_ship)
+                invader_manager.mystery_ship.color("LightGreen")
 
     # if player laser hits barricade
     for laser in player.all_lasers:
